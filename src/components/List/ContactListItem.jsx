@@ -10,12 +10,11 @@ const ContactListItem = ({ contact, onDelete }) => {
   return (
     <ContactItemStyle.Item>
       {contact.name}
-      <ContactItemStyle.Button onClick={handleDelete}>
-        Delete
-      </ContactItemStyle.Button>
+      <ContactItemStyle.Button onClick={handleDelete}>Delete</ContactItemStyle.Button>
     </ContactItemStyle.Item>
   );
 };
+
 ContactListItem.propTypes = {
   contact: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -24,4 +23,6 @@ ContactListItem.propTypes = {
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
 };
+
 export default ContactListItem;
+

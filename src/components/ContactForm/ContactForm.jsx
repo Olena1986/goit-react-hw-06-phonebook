@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormStyle } from './ContactForm.styled';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'Redux/contactsSlice.js';
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = () => {
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    addContact(name, number);
+
+    if (name.trim() === '' || number.trim() === '') {
+      return;
+    }
+
+    dispatch(addContact({ name, number }));
+
     setName('');
     setNumber('');
   };
@@ -24,7 +33,7 @@ const ContactForm = ({ addContact }) => {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
         />
       </FormStyle.Label>
 
@@ -37,7 +46,7 @@ const ContactForm = ({ addContact }) => {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           value={number}
-          onChange={e => setNumber(e.target.value)}
+          onChange={(e) => setNumber(e.target.value)}
         />
       </FormStyle.Label>
       <FormStyle.SubmitButton type="submit">Add Contact</FormStyle.SubmitButton>
@@ -50,3 +59,4 @@ ContactForm.propTypes = {
 };
 
 export default ContactForm;
+
