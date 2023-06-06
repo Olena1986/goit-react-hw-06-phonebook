@@ -5,16 +5,16 @@ import { AppStyle } from './App.styled';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
-import { addContact, deleteContact, updateFilter } from 'Redux/contactsSlice.js';
+import { addContact, updateFilter } from 'Redux/contactsSlice.js';
 
 const App = () => {
   const dispatch = useDispatch();
  const contacts = useSelector(state => state.contacts.contacts);
 const filter = useSelector(state => state.contacts.filter);
 
-  const handleAddContact = (name, number) => {
+ const handleAddContact = ({ name, number }) => {
     const existingContact = contacts.find(
-      (contact) => contact.name.toLowerCase() === name.toLowerCase()
+      contact => contact.name.toLowerCase() === name.toLowerCase()
     );
 
     if (existingContact) {
@@ -22,18 +22,9 @@ const filter = useSelector(state => state.contacts.filter);
       return;
     }
 
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
-    dispatch(addContact(newContact));
+    dispatch(addContact({ name, number, id: nanoid() }));
   };
 
-  const handleDeleteContact = (id) => {
-    dispatch(deleteContact(id));
-  };
 
   const handleFilterChange = (e) => {
     dispatch(updateFilter(e.target.value));
@@ -46,11 +37,11 @@ const filter = useSelector(state => state.contacts.filter);
   return (
     <AppStyle.AppContainer>
       <AppStyle.AppTitle>Phonebook</AppStyle.AppTitle>
-      <ContactForm addContact={handleAddContact} />
+      <ContactForm handleAddContact={handleAddContact} />
 
       <AppStyle.AppSubtitle>Contacts</AppStyle.AppSubtitle>
       <Filter value={filter} onChange={handleFilterChange} />
-      <ContactList contacts={filteredContacts} onDelete={handleDeleteContact} />
+      <ContactList contacts={filteredContacts} />
     </AppStyle.AppContainer>
   );
 };

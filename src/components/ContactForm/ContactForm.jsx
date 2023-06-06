@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormStyle } from './ContactForm.styled';
-import { useDispatch } from 'react-redux';
-import { addContact } from 'Redux/contactsSlice.js';
 
-const ContactForm = () => {
-  const dispatch = useDispatch();
+
+const ContactForm = ({ handleAddContact }) => {
+  
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     if (name.trim() === '' || number.trim() === '') {
       return;
     }
 
-    dispatch(addContact({ name, number }));
+    handleAddContact({ name, number });
 
     setName('');
     setNumber('');
@@ -55,7 +54,7 @@ const ContactForm = () => {
 };
 
 ContactForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
+  handleAddContact: PropTypes.func,
 };
 
 export default ContactForm;

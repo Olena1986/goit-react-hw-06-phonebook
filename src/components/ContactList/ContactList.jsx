@@ -1,21 +1,14 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { deleteContact } from 'Redux/contactsSlice.js';
 import { ContactListStyle } from './ContactList.styled';
 import ContactListItem from '../List/ContactListItem';
 
 const ContactList = ({ contacts }) => {
-  const dispatch = useDispatch();
-
-  const handleDelete = (id) => {
-    dispatch(deleteContact(id));
-  };
-
+ 
   return (
     <ContactListStyle.ListStyle>
       {contacts.map((contact) => (
-        <ContactListItem key={contact.id} contact={contact} onDelete={handleDelete} />
+        <ContactListItem key={contact.id} contact={contact}/>
       ))}
     </ContactListStyle.ListStyle>
   );
